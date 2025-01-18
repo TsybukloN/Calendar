@@ -16,7 +16,11 @@ namespace Calendar
         private void btnAddEvent_Click(object sender, EventArgs e)
         {
             var selectedDate = monthCalendar.SelectionStart.Date;
-            Event actual_event = new Event(txtEvent.Text);
+            Event actual_event = new Event(
+                txtEvent.Text, 
+                startTimePicker.Value.TimeOfDay, 
+                endTimePicker.Value.TimeOfDay
+            );
 
             if (!string.IsNullOrWhiteSpace(actual_event.name))
             {
@@ -46,7 +50,9 @@ namespace Calendar
             if (events.ContainsKey(selectedDate))
             {
                 foreach (var iter_event in events[selectedDate])
-                    listBoxEvents.Items.Add(iter_event.name);
+                    listBoxEvents.Items.Add($"{iter_event.start_time.ToString(@"hh\:mm")}" +
+                        $"-{iter_event.end_time.ToString(@"hh\:mm")}" +
+                        $" : {iter_event.name}");
             }
         }
     }

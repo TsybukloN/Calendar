@@ -7,7 +7,8 @@
         private System.Windows.Forms.TextBox txtEvent;
         private System.Windows.Forms.Button btnAddEvent;
         private System.Windows.Forms.ListBox listBoxEvents;
-        private System.Windows.Forms.DateTimePicker timePicker;
+        private System.Windows.Forms.DateTimePicker startTimePicker;
+        private System.Windows.Forms.DateTimePicker endTimePicker;
 
         protected override void Dispose(bool disposing)
         {
@@ -24,7 +25,8 @@
             this.txtEvent = new System.Windows.Forms.TextBox();
             this.btnAddEvent = new System.Windows.Forms.Button();
             this.listBoxEvents = new System.Windows.Forms.ListBox();
-            this.timePicker = new System.Windows.Forms.DateTimePicker();
+            this.startTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.endTimePicker = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
             // 
             // monthCalendar
@@ -61,24 +63,34 @@
             this.listBoxEvents.Location = new System.Drawing.Point(420, 110);
             this.listBoxEvents.Margin = new System.Windows.Forms.Padding(4);
             this.listBoxEvents.Name = "listBoxEvents";
-            this.listBoxEvents.Size = new System.Drawing.Size(256, 244);
+            this.listBoxEvents.Size = new System.Drawing.Size(400, 344);
             this.listBoxEvents.TabIndex = 3;
             // 
-            // timePicker
+            // startTimePicker
             // 
-            this.timePicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.timePicker.Location = new System.Drawing.Point(718, 24);
-            this.timePicker.Name = "timePicker";
-            this.timePicker.ShowUpDown = true;
-            this.timePicker.Size = new System.Drawing.Size(200, 26);
-            this.timePicker.TabIndex = 4;
+            this.startTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.startTimePicker.Location = new System.Drawing.Point(864, 43);
+            this.startTimePicker.Name = "startTimePicker";
+            this.startTimePicker.ShowUpDown = true;
+            this.startTimePicker.Size = new System.Drawing.Size(200, 26);
+            this.startTimePicker.TabIndex = 4;
+            // 
+            // endTimePicker
+            // 
+            this.endTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.endTimePicker.Location = new System.Drawing.Point(864, 110);
+            this.endTimePicker.Name = "endTimePicker";
+            this.endTimePicker.ShowUpDown = true;
+            this.endTimePicker.Size = new System.Drawing.Size(200, 26);
+            this.endTimePicker.TabIndex = 4;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(960, 421);
-            this.Controls.Add(this.timePicker);
+            this.ClientSize = new System.Drawing.Size(1122, 518);
+            this.Controls.Add(this.startTimePicker);
+            this.Controls.Add(this.endTimePicker);
             this.Controls.Add(this.listBoxEvents);
             this.Controls.Add(this.btnAddEvent);
             this.Controls.Add(this.txtEvent);
