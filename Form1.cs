@@ -6,54 +6,103 @@ namespace Calendar
 {
     public partial class Form1 : Form
     {
-        private Dictionary<DateTime, List<Event>> events = new Dictionary<DateTime, List<Event>>();
+        private List<Event> events = new List<Event>();
 
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void btnAddEvent_Click(object sender, EventArgs e)
+        private void AddEventButton_Click(object sender, EventArgs e)
         {
-            var selectedDate = monthCalendar.SelectionStart.Date;
-            Event actual_event = new Event(
-                txtEvent.Text, 
-                startTimePicker.Value.TimeOfDay, 
-                endTimePicker.Value.TimeOfDay
-            );
-
-            if (!string.IsNullOrWhiteSpace(actual_event.name))
+            isEditing = false;
+            addPanel.Visible = !addPanel.Visible;
+            if (!addPanel.Visible)
             {
-                if (!events.ContainsKey(selectedDate))
-                    events[selectedDate] = new List<Event>();
+                ClearAddEventForm();
+            }
+        }
 
-                events[selectedDate].Add(actual_event);
-                txtEvent.Clear();
-                UpdateEventList();
+        private void EditEventButton_Click(object sender, EventArgs e)
+        {
+            if (listBoxEvents.SelectedIndex < 0)
+            {
+                MessageBox.Show("Please select an event to edit.");
+                return;
+            }
+
+            if (listBoxEvents.SelectedItem is Event selectedEvent)
+            {
+                isEditing = true;
+                editingIndex = listBoxEvents.SelectedIndex;
+
+                nameEvent.Text = selectedEvent.Name;
+                startTimePicker.Value = selectedEvent.StartDate;
+                endTimePicker.Value = selectedEvent.EndDate;
+                descriptionEvent.Text = selectedEvent.Description;
+
+                addPanel.Visible = true;
             }
             else
             {
-                MessageBox.Show("Enter desription for event.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Failed to retrieve the selected event. Please try again.");
             }
         }
 
-        private void monthCalendar_DateChanged(object sender, DateRangeEventArgs e)
+        private void SaveEventButton_Click(object sender, EventArgs e)
         {
-            UpdateEventList();
-        }
+            Event actual_event = new Event(
+                nameEvent.Text,
+                startTimePicker.Value,
+                endTimePicker.Value,
+                descriptionEvent.Text
+            );
 
-        private void UpdateEventList()
-        {
-            var selectedDate = monthCalendar.SelectionStart.Date;
-            listBoxEvents.Items.Clear();
-
-            if (events.ContainsKey(selectedDate))
+            if (isEditing && editingIndex >= 0)
             {
-                foreach (var iter_event in events[selectedDate])
-                    listBoxEvents.Items.Add($"{iter_event.start_time.ToString(@"hh\:mm")}" +
-                        $"-{iter_event.end_time.ToString(@"hh\:mm")}" +
-                        $" : {iter_event.name}");
+                events[editingIndex] = actual_event;
+                isEditing = false;
+                editingIndex = -1;
             }
+            else
+            {
+                events.Add(actual_event);
+            }
+
+            UpdateListBox();
+
+            addPanel.Visible = false;
+            ClearAddEventForm();
+        }
+
+        private void DeleteEventButton_Click(object sender, EventArgs e)
+        {
+            if (listBoxEvents.SelectedItem is Event selectedEvent)
+            {
+                events.Remove(selectedEvent);
+                UpdateListBox();
+            }
+            else
+            {
+                MessageBox.Show("Please select an event to delete.", "No Selection");
+            }
+        }
+
+        private void UpdateListBox()
+        {
+            listBoxEvents.Items.Clear();
+            foreach (var ev in events)
+            {
+                listBoxEvents.Items.Add(ev);
+            }
+        }
+
+        private void ClearAddEventForm()
+        {
+            nameEvent.Text = "";
+            startTimePicker.Value = DateTime.Now;
+            endTimePicker.Value = DateTime.Now;
+            descriptionEvent.Text = "";
         }
     }
 }
