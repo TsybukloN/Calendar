@@ -14,6 +14,8 @@ namespace Calendar
         public String Name { get; set; }
         public String Description { get; set; }
 
+        public Event() { }
+
         public Event(String name, DateTime start_time, DateTime end_time)
         {
             this.Name = name;
@@ -30,7 +32,7 @@ namespace Calendar
         
         public override string ToString()
         {
-            return $"{this.Name} ({this.StartDate:dd.MM.yyyy HH:mm} - {this.EndDate:dd.MM.yyyy HH:mm})";
+            return $"{this.Name}";
         }
     }
 }
