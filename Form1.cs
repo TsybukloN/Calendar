@@ -70,12 +70,22 @@ namespace Calendar
 
             var filteredEvents = events
                 .Where(ev => ev.StartDate <= endDate && ev.EndDate >= startDate)
+                .OrderBy(ev => ev.StartDate)
                 .ToList();
 
             listBoxEvents.Items.Clear();
 
+            DateTime? currentDay = null;
+
             foreach (var ev in filteredEvents)
             {
+                if (currentDay != ev.StartDate.Date)
+                {
+                    currentDay = ev.StartDate.Date;
+
+                    listBoxEvents.Items.Add($"-- {currentDay:dddd, dd MMMM yyyy} --");
+                }
+
                 listBoxEvents.Items.Add(ev);
             }
         }
@@ -95,7 +105,7 @@ namespace Calendar
                 ClearAddEventForm();
             }
 
-            //nameEvent.Focus();
+            nameEvent.Focus();
         }
 
         private void PreviewEventList_SelectedIndexChanged(object sender, EventArgs e)
@@ -207,7 +217,7 @@ namespace Calendar
             endTimeSearchPicker.ValueChanged += TimeSearchPicker_ValueChanged;
         }
 
-        private void monthCalendar_DateChanged(object sender, DateRangeEventArgs e)
+        private void MonthCalendar_DateChanged(object sender, DateRangeEventArgs e)
         {
             if (isEditing) 
             {

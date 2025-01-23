@@ -80,7 +80,7 @@ namespace Calendar
             // 
             // addEventButton
             // 
-            this.addEventButton.Location = new System.Drawing.Point(17, 177);
+            this.addEventButton.Location = new System.Drawing.Point(17, 182);
             this.addEventButton.Name = "addEventButton";
             this.addEventButton.Size = new System.Drawing.Size(180, 40);
             this.addEventButton.TabIndex = 4;
@@ -89,7 +89,7 @@ namespace Calendar
             // 
             // deleteEventButton
             // 
-            this.deleteEventButton.Location = new System.Drawing.Point(17, 234);
+            this.deleteEventButton.Location = new System.Drawing.Point(17, 239);
             this.deleteEventButton.Name = "deleteEventButton";
             this.deleteEventButton.Size = new System.Drawing.Size(180, 40);
             this.deleteEventButton.TabIndex = 6;
@@ -139,7 +139,7 @@ namespace Calendar
             this.addPanel.Controls.Add(this.endTimePicker);
             this.addPanel.Controls.Add(this.descriptionEvent);
             this.addPanel.Controls.Add(this.saveEventButton);
-            this.addPanel.Location = new System.Drawing.Point(203, 177);
+            this.addPanel.Location = new System.Drawing.Point(213, 182);
             this.addPanel.Name = "addPanel";
             this.addPanel.Size = new System.Drawing.Size(539, 312);
             this.addPanel.TabIndex = 8;
@@ -157,11 +157,11 @@ namespace Calendar
             // monthCalendar
             // 
             this.monthCalendar.CalendarDimensions = new System.Drawing.Size(3, 1);
-            this.monthCalendar.Location = new System.Drawing.Point(25, 2);
+            this.monthCalendar.Location = new System.Drawing.Point(37, 8);
             this.monthCalendar.MaxSelectionCount = 30;
             this.monthCalendar.Name = "monthCalendar";
             this.monthCalendar.TabIndex = 0;
-            this.monthCalendar.DateSelected += monthCalendar_DateChanged;
+            this.monthCalendar.DateSelected += MonthCalendar_DateChanged;
             // 
             // searchLabel
             // 
@@ -174,7 +174,7 @@ namespace Calendar
             // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(1210, 529);
+            this.ClientSize = new System.Drawing.Size(1210, 517);
             this.Controls.Add(this.monthCalendar);
             this.Controls.Add(this.searchLabel);
             this.Controls.Add(this.startTimeSearchPicker);
