@@ -4,6 +4,9 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using Newtonsoft.Json;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Drawing;
 
 namespace Calendar
 {
@@ -11,6 +14,8 @@ namespace Calendar
     {
         private List<Event> events;
         private readonly string filePath = "calendarEvents.json";
+        private readonly string namePlaceholder = "name";
+        private readonly string descriptionPlaceholder = "description";
 
         public void LoadEvents()
         {
@@ -23,7 +28,7 @@ namespace Calendar
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Ошибка загрузки данных: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Error loading data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     events = new List<Event>();
                 }
 
@@ -64,7 +69,7 @@ namespace Calendar
             }
 
             var filteredEvents = events
-                .Where(ev => ev.StartDate >= startDate && ev.EndDate <= endDate)
+                .Where(ev => ev.StartDate <= endDate && ev.EndDate >= startDate)
                 .ToList();
 
             listBoxEvents.Items.Clear();
@@ -103,22 +108,27 @@ namespace Calendar
                 endTimePicker.Value = selectedEvent.EndDate;
                 descriptionEvent.Text = selectedEvent.Description;
 
+                TextBoxPlaceholder.SetPlaceholder(nameEvent, namePlaceholder);
+                TextBoxPlaceholder.SetPlaceholder(descriptionEvent, descriptionPlaceholder);
+
                 addPanel.Visible = true;
             }
             else
             {
-                MessageBox.Show("Can not found the Event.");
                 addPanel.Visible = false;
             }
         }
 
         private void SaveEventButton_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(nameEvent.Text))
+            if (string.IsNullOrWhiteSpace(nameEvent.Text) || nameEvent.Text == namePlaceholder)
             {
                 MessageBox.Show("Event name cannot be empty.");
                 return;
             }
+
+            descriptionEvent.Text = descriptionEvent.Text == descriptionPlaceholder 
+                ? "" : descriptionEvent.Text;
 
             if (startTimePicker.Value > endTimePicker.Value)
             {
@@ -174,20 +184,21 @@ namespace Calendar
 
         private void ClearAddEventForm()
         {
-            nameEvent.Text = "";
+            this.nameEvent.Text = "";
+            TextBoxPlaceholder.SetPlaceholder(this.nameEvent, namePlaceholder);
+
             startTimePicker.Value = DateTime.Now;
-            endTimePicker.Value = DateTime.Now;
-            descriptionEvent.Text = "";
+            endTimePicker.Value = DateTime.Now.AddMinutes(30);
+
+            this.descriptionEvent.Text = "";
+            TextBoxPlaceholder.SetPlaceholder(this.descriptionEvent, descriptionPlaceholder);
         }
         
-        private void SetPickersToDefault()
+        private void SetSearchPickersToDefault()
         {
             DateTime today = DateTime.Now;
             DateTime startOfWeek = today.AddDays(-(int)today.DayOfWeek + (int)DayOfWeek.Monday);
             DateTime endOfWeek = startOfWeek.AddDays(6);
-
-            startTimePicker.Value = today;
-            endTimePicker.Value = today.AddMinutes(30);
 
             startTimeSearchPicker.Value = startOfWeek;
             endTimeSearchPicker.Value = endOfWeek;
@@ -198,11 +209,24 @@ namespace Calendar
 
         private void monthCalendar_DateChanged(object sender, DateRangeEventArgs e)
         {
+            if (isEditing) 
+            {
+                isEditing = false;
+                addPanel.Visible = false;
+                ClearAddEventForm();
+            }
+
             startTimeSearchPicker.ValueChanged -= TimeSearchPicker_ValueChanged;
             endTimeSearchPicker.ValueChanged -= TimeSearchPicker_ValueChanged;
 
-            endTimeSearchPicker.Value = monthCalendar.SelectionRange.End.Date.AddDays(1).AddTicks(-1);
             startTimeSearchPicker.Value = monthCalendar.SelectionRange.Start.Date;
+            endTimeSearchPicker.Value = monthCalendar.SelectionRange.End.Date.AddDays(1).AddTicks(-1);
+
+            startTimePicker.Value = monthCalendar.SelectionRange.Start.Date
+                .AddHours(DateTime.Now.Hour)
+                .AddMinutes(DateTime.Now.Minute)
+                .AddSeconds(DateTime.Now.Second); ;
+            endTimePicker.Value = startTimePicker.Value.AddMinutes(30);
 
             startTimeSearchPicker.ValueChanged += TimeSearchPicker_ValueChanged;
             endTimeSearchPicker.ValueChanged += TimeSearchPicker_ValueChanged;
@@ -213,7 +237,8 @@ namespace Calendar
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            SetPickersToDefault();
+            SetSearchPickersToDefault();
+            ClearAddEventForm();
             LoadEvents();
             FilterEvents();
         }

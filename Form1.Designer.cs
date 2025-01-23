@@ -80,7 +80,7 @@ namespace Calendar
             // 
             // addEventButton
             // 
-            this.addEventButton.Location = new System.Drawing.Point(17, 205);
+            this.addEventButton.Location = new System.Drawing.Point(17, 177);
             this.addEventButton.Name = "addEventButton";
             this.addEventButton.Size = new System.Drawing.Size(180, 40);
             this.addEventButton.TabIndex = 4;
@@ -89,7 +89,7 @@ namespace Calendar
             // 
             // deleteEventButton
             // 
-            this.deleteEventButton.Location = new System.Drawing.Point(17, 262);
+            this.deleteEventButton.Location = new System.Drawing.Point(17, 234);
             this.deleteEventButton.Name = "deleteEventButton";
             this.deleteEventButton.Size = new System.Drawing.Size(180, 40);
             this.deleteEventButton.TabIndex = 6;
@@ -103,7 +103,6 @@ namespace Calendar
             this.nameEvent.Name = "nameEvent";
             this.nameEvent.Size = new System.Drawing.Size(500, 35);
             this.nameEvent.TabIndex = 0;
-            TextBoxPlaceholder.SetPlaceholder(this.nameEvent, "name");
             // 
             // startTimePicker
             // 
@@ -140,7 +139,7 @@ namespace Calendar
             this.addPanel.Controls.Add(this.endTimePicker);
             this.addPanel.Controls.Add(this.descriptionEvent);
             this.addPanel.Controls.Add(this.saveEventButton);
-            this.addPanel.Location = new System.Drawing.Point(203, 205);
+            this.addPanel.Location = new System.Drawing.Point(203, 177);
             this.addPanel.Name = "addPanel";
             this.addPanel.Size = new System.Drawing.Size(539, 312);
             this.addPanel.TabIndex = 8;
@@ -153,16 +152,16 @@ namespace Calendar
             this.descriptionEvent.Name = "descriptionEvent";
             this.descriptionEvent.Size = new System.Drawing.Size(500, 100);
             this.descriptionEvent.TabIndex = 3;
-            TextBoxPlaceholder.SetPlaceholder(this.descriptionEvent, "description");
+            this.descriptionEvent.Text = "";
             // 
             // monthCalendar
             // 
             this.monthCalendar.CalendarDimensions = new System.Drawing.Size(3, 1);
-            this.monthCalendar.Location = new System.Drawing.Point(17, 11);
+            this.monthCalendar.Location = new System.Drawing.Point(25, 2);
+            this.monthCalendar.MaxSelectionCount = 30;
             this.monthCalendar.Name = "monthCalendar";
             this.monthCalendar.TabIndex = 0;
-            this.monthCalendar.MaxSelectionCount = 30;
-            this.monthCalendar.DateChanged += this.monthCalendar_DateChanged;
+            this.monthCalendar.DateSelected += monthCalendar_DateChanged;
             // 
             // searchLabel
             // 
@@ -185,7 +184,8 @@ namespace Calendar
             this.Controls.Add(this.listBoxEvents);
             this.Controls.Add(this.addPanel);
             this.Name = "Form1";
-            this.Text = "Korovnic Inc. Calendar";
+            this.Text = "Calendar";
+            this.Icon = new Icon("calendar-icon.ico");
             this.Load += new System.EventHandler(this.Form1_Load);
             this.addPanel.ResumeLayout(false);
             this.addPanel.PerformLayout();

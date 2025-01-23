@@ -1,13 +1,22 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
 namespace Calendar
 {
     public static class TextBoxPlaceholder
     {
-        public static void SetPlaceholder(TextBox textBox, string placeholderText)
+        public static void SetPlaceholder(System.Windows.Forms.TextBox textBox, string placeholderText)
         {
-            textBox.Text = placeholderText;
-            textBox.ForeColor = Color.Gray;
+            if (string.IsNullOrWhiteSpace(textBox.Text) || textBox.Text == placeholderText)
+            {
+                textBox.Text = placeholderText;
+                textBox.ForeColor = Color.Gray;
+            }
+            else
+            {
+                textBox.ForeColor = SystemColors.WindowText;
+            }
 
             textBox.Enter += (sender, e) =>
             {
@@ -28,10 +37,17 @@ namespace Calendar
             };
         }
 
-        public static void SetPlaceholder(RichTextBox richTextBox, string placeholderText)
+        public static void SetPlaceholder(System.Windows.Forms.RichTextBox richTextBox, string placeholderText)
         {
-            richTextBox.Text = placeholderText;
-            richTextBox.ForeColor = Color.Gray;
+            if (string.IsNullOrWhiteSpace(richTextBox.Text) || richTextBox.Text == placeholderText)
+            {
+                richTextBox.Text = placeholderText;
+                richTextBox.ForeColor = Color.Gray;
+            }
+            else
+            {
+                richTextBox.ForeColor = SystemColors.WindowText;
+            }
 
             richTextBox.Enter += (sender, e) =>
             {

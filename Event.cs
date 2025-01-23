@@ -14,7 +14,7 @@ namespace Calendar
         public String Name { get; set; }
         public String Description { get; set; }
 
-        public Event() { }
+        public Event() {}
 
         public Event(String name, DateTime start_time, DateTime end_time)
         {
