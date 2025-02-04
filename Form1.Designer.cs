@@ -37,15 +37,11 @@ namespace Calendar
             this.listBoxEvents = new System.Windows.Forms.ListBox();
             this.startTimeSearchPicker = new System.Windows.Forms.DateTimePicker();
             this.endTimeSearchPicker = new System.Windows.Forms.DateTimePicker();
-            this.addEventButton = new System.Windows.Forms.Button();
-            this.deleteEventButton = new System.Windows.Forms.Button();
             this.nameEvent = new System.Windows.Forms.TextBox();
             this.startTimePicker = new System.Windows.Forms.DateTimePicker();
             this.endTimePicker = new System.Windows.Forms.DateTimePicker();
-            this.saveEventButton = new System.Windows.Forms.Button();
             this.addPanel = new System.Windows.Forms.Panel();
             this.descriptionEvent = new System.Windows.Forms.RichTextBox();
-            this.monthCalendar = new System.Windows.Forms.MonthCalendar();
             this.searchLabel = new System.Windows.Forms.Label();
             this.addPanel.SuspendLayout();
             this.SuspendLayout();
@@ -79,22 +75,28 @@ namespace Calendar
             this.endTimeSearchPicker.TabIndex = 3;
             // 
             // addEventButton
-            // 
-            this.addEventButton.Location = new System.Drawing.Point(17, 182);
-            this.addEventButton.Name = "addEventButton";
-            this.addEventButton.Size = new System.Drawing.Size(180, 40);
-            this.addEventButton.TabIndex = 4;
-            this.addEventButton.Text = "Add New Event";
-            this.addEventButton.Click += new System.EventHandler(this.AddEventButton_Click);
+            //
+            addEventButton = new Button()
+            {
+                Text = "➕ Add Event",
+                Location = new Point(17, 190),
+                Size = new Size(180, 40),
+                BackColor = Color.LightBlue,
+                FlatStyle = FlatStyle.Flat
+            };
+            addEventButton.Click += AddEventButton_Click;
             // 
             // deleteEventButton
-            // 
-            this.deleteEventButton.Location = new System.Drawing.Point(17, 239);
-            this.deleteEventButton.Name = "deleteEventButton";
-            this.deleteEventButton.Size = new System.Drawing.Size(180, 40);
-            this.deleteEventButton.TabIndex = 6;
-            this.deleteEventButton.Text = "Delete Selected Event";
-            this.deleteEventButton.Click += new System.EventHandler(this.DeleteEventButton_Click);
+            //
+            deleteEventButton = new Button()
+            {
+                Text = "🗑️ Delete Event",
+                Location = new Point(17, 239),
+                Size = new Size(180, 40),
+                BackColor = Color.LightCoral,
+                FlatStyle = FlatStyle.Flat
+            };
+            deleteEventButton.Click += DeleteEventButton_Click;
             // 
             // nameEvent
             // 
@@ -123,13 +125,16 @@ namespace Calendar
             this.endTimePicker.TabIndex = 2;
             // 
             // saveEventButton
-            // 
-            this.saveEventButton.Location = new System.Drawing.Point(20, 260);
-            this.saveEventButton.Name = "saveEventButton";
-            this.saveEventButton.Size = new System.Drawing.Size(500, 30);
-            this.saveEventButton.TabIndex = 4;
-            this.saveEventButton.Text = "Save Event";
-            this.saveEventButton.Click += new System.EventHandler(this.SaveEventButton_Click);
+            //
+            saveEventButton = new Button()
+            {
+                Text = "💾 Save Event",
+                Location = new Point(20, 260),
+                Size = new Size(500, 30),
+                BackColor = Color.LightGreen,
+                FlatStyle = FlatStyle.Flat
+            };
+            saveEventButton.Click += SaveEventButton_Click;
             // 
             // addPanel
             // 
@@ -155,13 +160,14 @@ namespace Calendar
             this.descriptionEvent.Text = "";
             // 
             // monthCalendar
-            // 
-            this.monthCalendar.CalendarDimensions = new System.Drawing.Size(3, 1);
-            this.monthCalendar.Location = new System.Drawing.Point(37, 8);
-            this.monthCalendar.MaxSelectionCount = 30;
-            this.monthCalendar.Name = "monthCalendar";
-            this.monthCalendar.TabIndex = 0;
-            this.monthCalendar.DateSelected += MonthCalendar_DateChanged;
+            //
+            monthCalendar = new MonthCalendar()
+            {
+                Location = new Point(37, 8),
+                CalendarDimensions = new Size(3, 1),
+                MaxSelectionCount = 30
+            };
+            monthCalendar.DateSelected += MonthCalendar_DateChanged;
             // 
             // searchLabel
             // 

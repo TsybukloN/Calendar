@@ -14,8 +14,8 @@ namespace Calendar
     {
         private List<Event> events;
         private readonly string filePath = "calendarEvents.json";
-        private readonly string namePlaceholder = "name";
-        private readonly string descriptionPlaceholder = "description";
+        private readonly string namePlaceholder = "Event Name";
+        private readonly string descriptionPlaceholder = "Event Description";
 
         public void LoadEvents()
         {
@@ -134,6 +134,13 @@ namespace Calendar
             if (string.IsNullOrWhiteSpace(nameEvent.Text) || nameEvent.Text == namePlaceholder)
             {
                 MessageBox.Show("Event name cannot be empty.");
+                return;
+            }
+
+
+            if (nameEvent == null || descriptionEvent == null || startTimePicker == null || endTimePicker == null)
+            {
+                MessageBox.Show("One of the event fields is null!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
